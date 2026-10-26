@@ -1,27 +1,21 @@
 # Assignment 2 Report
 
-*Delete this italic guidance as you fill in each section. You'll be asked to
-defend any of this without your code in front of you. Write only what you
-can actually explain.*
-
-- **Name**:
-- **Student ID**:
-- **Email**:
-- **Group**: [BBADBA 5A | BBADBA 5B | PPLEDBA 5A | BDBA 3A]
+- **Name**: Marta Bermejo Villaescusa
+- **Student ID**: 18748
+- **Email**:mbermejo.ieu2022@student.ie.edu
+- **Group**: BBADBA 5B 
 
 ## Business problem, and the cost of being wrong
 
-*The decision this model supports, who or what acts on it, and what happens
-when it's wrong in each direction. Be concrete about the asymmetry: which
-mistake is worse, roughly by how much, and why. Everything downstream (your
-threshold, how much you send to a person, which metric you care about) has to trace
-back to this section.*
+The townhall of a city has to make decisions on where to send employees to make repairs, and what streets to prioritize, which ones to improve. My idea would be that some cars will be driving around with cameras, and by analyzing the potholes and streets that are in bad shape, they send a technical maintenance team to fix what needs to be fixed. 
+A false negative would be a real pothole that no one fixes, because it is not identified or found, which leads to the pothole becoming bigger, a bigger issue, harms vehicles, and becomes a more expensive issue and more difficult to fix. A false positive would be sending a repair team to a place that does not need fixing, causing the cost of opportunity of them going somwehere else, and the cost of moving to there, but does not generate any harm in itself. There would be more harm in false negatives, as they generate actual harm and certainly bigger expenses. As an estimate, I believe a false positive would be a cost of around 150 euros, because of being one hour of work of 3 workers, plus oil. For false negatives I assume a cost of 1000 Euros, because I have looked at costs of fixing potholes which is around 400 Euros, and took into account that if it grows it becomes bigger and there is the part of claims from citizens, which makes me think that 1000 is realistic.  
 
 ## Dataset
+I found the dataset in roboflow, about road damage detection, from an author called firas. Theworkspace is firas, the project road-damage-detection-cu86 and it is the version 2. The classes are crack, pothole, and manhole. This version has around 2000 images. One image is a frame of the road taken from inside of a vehicle, with objects appearing as bounding boxes around a feature of the road. The potholes are what I want to focus on, cracks is a different surface damaged, and manholes are key because they can look like a pothole but they need no repair. 
+This dataset serves my problem because my decision is whether to send a repair team to a segment of road using videos from vehicles that already are out there. This dataset matches that idea, as it contains pothole as the positive class and has manhole to serve as a potential false positive cause. 
+The link for the dataset is this one:
+https://universe.roboflow.com/firas/road-damage-detection-cu846
 
-*Workspace / project / version on Roboflow Universe, and the link. What one
-image represents, what the classes are, and why this dataset actually serves
-the problem above rather than merely resembling it.*
 
 ## What the dataset's composition implies
 
