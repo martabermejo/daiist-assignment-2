@@ -6,6 +6,7 @@ two baselines, and saves everything the app and the cost sweep need.
 import json
 import os
 import platform
+import runpy
 import shutil
 import time
 from pathlib import Path
@@ -150,6 +151,9 @@ def main():
         "device": torch.cuda.get_device_name(0) if device == 0 else platform.processor(),
         "torch": torch.__version__, "ultralytics": ultralytics.__version__,
     }, indent=2))
+    for png in (RUNS / "val_test").glob("confusion_matrix*.png"):
+        shutil.copy(png, ARTIFACTS / png.name)  # runs/ is gitignored, artifacts/ is not
+    runpy.run_path(str(ROOT / "cost_sweep.py"), run_name="__main__")
     print(json.dumps(metrics, indent=2))
 
 
