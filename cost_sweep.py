@@ -18,21 +18,21 @@ import numpy as np
 ROOT = Path(__file__).resolve().parent
 ART = ROOT / "artifacts"
 
-# ---- assumptions: yours to defend in REPORT.md ----
+# assumptions
 COST_FP = 150.0              # EUR: crew sent to a frame with no pothole
 COST_FN = 1000.0             # EUR: pothole left unrepaired
 BASE_RATES = [0.005, 0.01, 0.05, 0.42]
 CENTRAL = 0.01
-FRAMES_PER_DAY = 54_000      # 5 vehicles x 6 h x 1 frame / 2 s
-REVIEW_SECONDS = 5           # per reviewed frame
+FRAMES_PER_DAY = 43_200      # 2 vehicles x 12 h x 1,800 frames/h (1 frame / 2 s)
+REVIEWS_PER_PERSON_PER_DAY = 400
 REVIEWER_EUR_PER_HOUR = 25.0
-REVIEWER_HOURS_PER_DAY = 6.0 # productive hours per person
-N_REVIEWERS = 2              # people available: YOUR decision, change it
+REVIEWER_HOURS_PER_DAY = 8.0
+N_REVIEWERS = 5              # people available
 POSITIVE = "pothole"
 
-REVIEW_COST = REVIEW_SECONDS / 3600 * REVIEWER_EUR_PER_HOUR
-PER_PERSON = REVIEWER_HOURS_PER_DAY * 3600 / REVIEW_SECONDS  # frames/person/day
-SHARE_MAX = N_REVIEWERS * PER_PERSON / FRAMES_PER_DAY        # max share reviewed
+REVIEW_COST = REVIEWER_EUR_PER_HOUR * REVIEWER_HOURS_PER_DAY / REVIEWS_PER_PERSON_PER_DAY
+PER_PERSON = REVIEWS_PER_PERSON_PER_DAY
+SHARE_MAX = N_REVIEWERS * PER_PERSON / FRAMES_PER_DAY   # max share of frames a team can review
 
 metrics = json.loads((ART / "metrics.json").read_text())
 pid = list(metrics["per_class"]).index(POSITIVE)
@@ -76,8 +76,7 @@ def people_needed(share):
 result = {
     "positive_class": POSITIVE, "cost_fp": COST_FP, "cost_fn": COST_FN,
     "review_cost_per_frame": REVIEW_COST, "frames_per_day": FRAMES_PER_DAY,
-    "review_seconds": REVIEW_SECONDS, "n_reviewers": N_REVIEWERS,
-    "frames_per_person_per_day": PER_PERSON,
+    "reviews_per_person_per_day": REVIEWS_PER_PERSON_PER_DAY, "n_reviewers": N_REVIEWERS,    "frames_per_person_per_day": PER_PERSON,
     "central_base_rate": CENTRAL,
     "test_frames": {"positive": n_pos, "negative": n_neg},
     "thresholds": thr.tolist(), "tpr": tpr.tolist(), "fpr": fpr.tolist(),
